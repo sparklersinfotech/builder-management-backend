@@ -1,0 +1,9 @@
+# Node.js backend with Passenger (API only)
+
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/eugsqdxo/apiroongta.setlen.co.in/api"
+PassengerBaseURI /api
+PassengerNodejs "/home/eugsqdxo/nodevenv/apiroongta.setlen.co.in/20/bin/node"
+PassengerAppType node
+PassengerStartupFile server.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
