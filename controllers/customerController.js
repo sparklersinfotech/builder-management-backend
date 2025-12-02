@@ -259,9 +259,47 @@ exports.getExecutives = async (req, res) => {
 }
 
 // Get customer details with project information
+// exports.getCustomerDetails = async (req, res) => {
+//   try {
+//     const { customer_id } = req.params
+
+//     const [details] = await db.query(
+//       `
+//       SELECT 
+//         cd.*,
+//         nc.first_name,
+//         nc.middle_name,
+//         nc.last_name,
+//         nc.mobile_no,
+//         p.name as project_name,
+//         e.full_name as executive_name
+//       FROM customer_details cd
+//       JOIN new_customers nc ON cd.customer_id = nc.id
+//       LEFT JOIN projects p ON cd.project_id = p.id
+//       LEFT JOIN executives e ON cd.executive_id = e.id
+//       WHERE cd.customer_id = ?
+//       ORDER BY cd.date DESC
+//     `,
+//       [customer_id],
+//     )
+
+//     res.status(200).json({
+//       success: true,
+//       data: details,
+//     })
+//   } catch (error) {
+//     console.error("Error fetching customer details:", error)
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch customer details",
+//       error: error.message,
+//     })
+//   }
+// }
+
 exports.getCustomerDetails = async (req, res) => {
   try {
-    const { customer_id } = req.params
+    const { customer_id } = req.params;
 
     const [details] = await db.query(
       `
@@ -278,24 +316,27 @@ exports.getCustomerDetails = async (req, res) => {
       LEFT JOIN projects p ON cd.project_id = p.id
       LEFT JOIN executives e ON cd.executive_id = e.id
       WHERE cd.customer_id = ?
-      ORDER BY cd.date DESC
+      ORDER BY cd.created_at DESC, cd.id DESC
     `,
-      [customer_id],
-    )
+      [customer_id]
+    );
 
     res.status(200).json({
       success: true,
       data: details,
-    })
+    });
   } catch (error) {
-    console.error("Error fetching customer details:", error)
+    console.error("Error fetching customer details:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch customer details",
       error: error.message,
-    })
+    });
   }
-}
+};
+
+
+
 
 
 exports.getCustomerById = async (req, res) => {
@@ -333,40 +374,3 @@ exports.getCustomerById = async (req, res) => {
   }
 }
 
-exports.getCustomerDetails = async (req, res) => {
-  try {
-    const { customer_id } = req.params
-
-    const [details] = await db.query(
-      `
-      SELECT 
-        cd.*,
-        nc.first_name,
-        nc.middle_name,
-        nc.last_name,
-        nc.mobile_no,
-        p.name as project_name,
-        e.full_name as executive_name
-      FROM customer_details cd
-      JOIN new_customers nc ON cd.customer_id = nc.id
-      LEFT JOIN projects p ON cd.project_id = p.id
-      LEFT JOIN executives e ON cd.executive_id = e.id
-      WHERE cd.customer_id = ?
-      ORDER BY cd.date DESC
-    `,
-      [customer_id],
-    )
-
-    res.status(200).json({
-      success: true,
-      data: details,
-    })
-  } catch (error) {
-    console.error("Error fetching customer details:", error)
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch customer details",
-      error: error.message,
-    })
-  }
-}
